@@ -58,5 +58,12 @@
     },
     "inventory": [],
     "location": "cidade"
+  },
+  "Freitas": {
+    "password": "$2b$10$haN01JeRi0x6M0Fkbiq8Y.9EeScoqykA6Xr/6mD6mcA/UOrV6gZMa",
+    "friends": [],
+    "pending": [],
+    "classe": null,
+    "inventory": []
   }
 }
