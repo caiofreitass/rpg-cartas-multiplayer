@@ -79,7 +79,7 @@ function draw() {
 
         const tileImg = loadedTiles[tileId];
         if (tileImg && tileImg.complete) {
-          ctx.drawImage(tileImg, x, y, tileImg.width, tileImg.height);
+          ctx.drawImage(tileImg, x, y, 32, 32);
         }
       }
     }
