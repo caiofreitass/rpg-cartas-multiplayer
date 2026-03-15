@@ -13,10 +13,8 @@ for (let c of classes) {
   playerImages[c] = img;
 }
 
-// --- Tiles ---
-let loadedTiles = {}; // { id: Image }
-
-// Pré-carrega tiles do tiles.json
+// --- Tiles --- (pré‑carregar tiles.json)
+let loadedTiles = {};
 fetch("tiles.json")
   .then(res => res.json())
   .then(data => {
@@ -36,7 +34,6 @@ fetch("mapa.json")
   .then(map => {
     mapData = map;
     console.log("Mapa carregado:", mapData);
-    // inicia o gameLoop aqui se quiser
     gameLoop();
   });
 
@@ -50,7 +47,6 @@ let player = {
   y: 200,
   width: 48,
   height: 48,
-  name: "Eu",
   direction: "right",
   class: playerClass
 };
@@ -63,16 +59,14 @@ const keys = {};
 document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
 document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
-// --- Mapa dimensões ---
+// --- Dimensões do mapa ---
 const mapWidth = 50 * 32;
 const mapHeight = 50 * 32;
 
-// --- Função de desenho ---
+// --- Função draw ---
 function draw() {
-  if (!canvas || !ctx) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   if (!mapData) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let layer of mapData.layers) {
     if (layer.type === "tilelayer") {
@@ -91,10 +85,8 @@ function draw() {
     }
   }
 
-  // --- Player local ---
   drawPlayer(player.x, player.y, playerImg, player.direction);
 
-  // --- Outros players ---
   for (let id in worldPlayers) {
     const p = worldPlayers[id];
     if (!p || id === socket.id) continue;
@@ -103,12 +95,11 @@ function draw() {
   }
 }
 
-// --- Movimentação ---
+// --- Movimentar ---
 function movePlayer() {
   let speed = 5;
   let newX = player.x;
   let newY = player.y;
-
   if (keys["w"]) newY -= speed;
   if (keys["s"]) newY += speed;
   if (keys["a"]) { newX -= speed; player.direction = "left"; }
@@ -133,7 +124,6 @@ function checkCollision(newX, newY) {
   return false;
 }
 
-// --- Desenhar jogador com espelhamento ---
 function drawPlayer(px, py, pImg, pDir) {
   if (!pImg || !pImg.complete) return;
   ctx.save();
@@ -147,21 +137,15 @@ function drawPlayer(px, py, pImg, pDir) {
   ctx.restore();
 }
 
-// --- Socket.io ---
 socket.on("worldState", data => {
   worldPlayers = data.worldPlayers || {};
 });
 
 socket.on("worldPlayersUpdate", data => {
-  for (let id in data) {
-    worldPlayers[id] = data[id];
-  }
-  for (let id in worldPlayers) {
-    if (!data[id]) delete worldPlayers[id];
-  }
+  for (let id in data) worldPlayers[id] = data[id];
+  for (let id in worldPlayers) if (!data[id]) delete worldPlayers[id];
 });
 
-// --- Game Loop ---
 function gameLoop() {
   movePlayer();
   draw();
