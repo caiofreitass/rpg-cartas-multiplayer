@@ -90,6 +90,7 @@ function draw(){
   let p = worldPlayers[id]
 
   if(!p) continue
+  if(p.id === socket.id) continue
 
   drawPlayer(p.x, p.y, playerImg, p.direction)
 
