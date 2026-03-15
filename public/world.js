@@ -4,6 +4,7 @@ const socket = io();
 const canvas = document.getElementById("worldCanvas");
 const ctx = canvas.getContext("2d");
 const tilesImg = new Image()
+const playerImages = {}
 
 tilesImg.onload = () => {
   console.log("Tiles carregados")
@@ -55,9 +56,12 @@ const mapHeight = 3000;
 
 function draw(){
 
+  if(!canvas || !ctx) return
+
   ctx.clearRect(0,0,canvas.width,canvas.height)
 
   if(!mapData) return
+  if(!tilesImg.complete) return
 
   for(let layer of mapData.layers){
 
@@ -90,10 +94,16 @@ function draw(){
   let p = worldPlayers[id]
 
   if(!p) continue
-  if(p.id === socket.id) continue
+  if(id === socket.id) continue
+    
+ if(!playerImages[p.class]){
 
- let img = new Image()
-img.src = `./${p.class}.png`
+  playerImages[p.class] = new Image()
+  playerImages[p.class].src = `./${p.class}.png`
+
+}
+
+let img = playerImages[p.class]
 
 drawPlayer(p.x, p.y, img, p.direction)
 }
