@@ -3,6 +3,13 @@ const socket = io();
 // --- Canvas ---
 const canvas = document.getElementById("worldCanvas");
 const ctx = canvas.getContext("2d");
+const tilesImg = new Image()
+
+tilesImg.onload = () => {
+  console.log("Tiles carregados")
+}
+
+tilesImg.src = "tiles.png"
 
 // MAPA DO TILED
 let mapData = null
@@ -12,6 +19,8 @@ fetch("mapa.json")
 .then(map => {
     mapData = map
     console.log("Mapa carregado:", mapData)
+
+    gameLoop() // inicia o jogo aqui
 })
 
 
@@ -33,10 +42,6 @@ let player = {
 // --- Outros jogadores ---
 let worldPlayers = {};
 
-// --- Árvores ---
-const treeImg = new Image();
-treeImg.src = "tree.png";
-let trees = [];
 
 // --- Teclado ---
 const keys = {};
@@ -46,6 +51,37 @@ document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 // --- Mapa ---
 const mapWidth = 3000;
 const mapHeight = 3000;
+
+
+function draw(){
+
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+
+  if(!mapData) return
+
+  for(let layer of mapData.layers){
+
+    if(layer.type === "tilelayer"){
+
+      for(let i=0;i<layer.data.length;i++){
+
+        let tile = layer.data[i]
+
+        if(tile === 0) continue
+
+        let x = (i % mapData.width) * 32
+        let y = Math.floor(i / mapData.width) * 32
+
+        ctx.drawImage(tilesImg, 0,0,32,32, x,y,32,32)
+
+      }
+
+    }
+
+  }
+
+}
+
 
 // --- Movimentar e enviar pro servidor ---
 function movePlayer() {
@@ -76,13 +112,6 @@ function checkCollision(newX, newY) {
   if (newX < 0 || newX + player.width > mapWidth) return true;
   if (newY < 0 || newY + player.height > mapHeight) return true;
 
-  for (let t of trees) {
-    if (newX + player.width > t.x && newX < t.x + t.width &&
-        newY + player.height > t.y && newY < t.y + t.height) {
-      return true;
-    }
-  }
-
   return false;
 }
 
@@ -99,40 +128,10 @@ function drawPlayer(px, py, pImg, pDir) {
   ctx.restore();
 }
 
-// --- Desenhar mundo ---
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const offsetX = player.x - canvas.width / 2;
-  const offsetY = player.y - canvas.height / 2;
-
-  // chão
-  ctx.fillStyle = "#2c8c2c";
-  ctx.fillRect(-offsetX, -offsetY, mapWidth, mapHeight);
-
-  // árvores
-  for (let t of trees) {
-    ctx.drawImage(treeImg, t.x - offsetX, t.y - offsetY, 60, 80);
-  }
-
-  // todos os jogadores
-  for (let id in worldPlayers) {
-  let p = worldPlayers[id];
-
-  // usar a imagem já carregada para o jogador local
-  let imgToDraw = (id === socket.id) ? playerImg : new Image();
-  if (id !== socket.id) imgToDraw.src = `./${p.class || "humano"}.png`;
-
-  drawPlayer(p.x - offsetX, p.y - offsetY, imgToDraw, p.direction || "right");
-  ctx.fillStyle = "white";
-  ctx.fillText(p.name || "Player", p.x - offsetX - 15, p.y - offsetY - 10);
-}
-}
 
 // --- socket.io ---
 socket.on("worldState", data => {
-  trees = data.trees || [];
-  worldPlayers = data.worldPlayers || {};
+worldPlayers = data.worldPlayers || {};
 });
 
 socket.on("worldPlayersUpdate", data => {
@@ -146,4 +145,3 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
