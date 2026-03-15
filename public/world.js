@@ -3,8 +3,9 @@ const socket = io();
 // --- Canvas ---
 const canvas = document.getElementById("worldCanvas");
 const ctx = canvas.getContext("2d");
-const tilesImg = new Image()
-const playerImages = {}
+
+// --- Player Images ---
+const playerImages = {};
 const classes = ["humano", "Lobisomem", "Bruxa", "Vampiro"];
 for (let c of classes) {
   const img = new Image();
@@ -12,29 +13,37 @@ for (let c of classes) {
   playerImages[c] = img;
 }
 
-tilesImg.onload = () => {
-  console.log("Tiles carregados")
-}
+// --- Tiles ---
+let loadedTiles = {}; // { id: Image }
 
-tilesImg.src = "tiles.png"
+// Pré-carrega tiles do tiles.json
+fetch("tiles.json")
+  .then(res => res.json())
+  .then(data => {
+    for (let tile of data.tiles) {
+      const img = new Image();
+      img.src = tile.image;
+      img.onload = () => console.log("Tile carregado:", tile.image);
+      img.onerror = () => console.error("Erro carregando tile:", tile.image);
+      loadedTiles[tile.id] = img;
+    }
+  });
 
-// MAPA DO TILED
-let mapData = null
-
+// --- Mapa ---
+let mapData = null;
 fetch("mapa.json")
-.then(res => res.json())
-.then(map => {
-    mapData = map
-    console.log("Mapa carregado:", mapData)
+  .then(res => res.json())
+  .then(map => {
+    mapData = map;
+    console.log("Mapa carregado:", mapData);
+    // inicia o gameLoop aqui se quiser
+    gameLoop();
+  });
 
-    gameLoop() // inicia o jogo aqui
-})
-
-
-// --- Player local (com classe) ---
+// --- Player local ---
 const playerClass = localStorage.getItem("playerClass") || "humano";
 const playerImg = new Image();
-playerImg.src = `./${playerClass}.png`; // ou "./images/${playerClass}.png" se usar pasta images
+playerImg.src = `./${playerClass}.png`;
 
 let player = {
   x: 200,
@@ -49,72 +58,52 @@ let player = {
 // --- Outros jogadores ---
 let worldPlayers = {};
 
-
 // --- Teclado ---
 const keys = {};
 document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
 document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
-// --- Mapa ---
-const mapWidth = 50 * 32;  // 1600
-const mapHeight = 50 * 32; // 1600
+// --- Mapa dimensões ---
+const mapWidth = 50 * 32;
+const mapHeight = 50 * 32;
 
+// --- Função de desenho ---
+function draw() {
+  if (!canvas || !ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function draw(){
+  if (!mapData) return;
 
-  if(!canvas || !ctx) return
+  for (let layer of mapData.layers) {
+    if (layer.type === "tilelayer") {
+      for (let i = 0; i < layer.data.length; i++) {
+        const tileId = layer.data[i];
+        if (tileId === 0) continue;
 
-  ctx.clearRect(0,0,canvas.width,canvas.height)
+        const x = (i % mapData.width) * 32;
+        const y = Math.floor(i / mapData.width) * 32;
 
-  if(!mapData) return
-  if(!tilesImg.complete) return
-
-  for(let layer of mapData.layers){
-
-    if(layer.type === "tilelayer"){
-
-      for(let i=0;i<layer.data.length;i++){
-
-        let tile = layer.data[i]
-
-        if(tile === 0) continue
-
-        let x = (i % mapData.width) * 32
-        let y = Math.floor(i / mapData.width) * 32
-
-        let tileX = ((tile - 1) % 8) * 32
-        let tileY = Math.floor((tile - 1) / 8) * 32
-
-       let tileImg = loadedTiles[tile];
-if(tileImg && tileImg.complete) {
-    ctx.drawImage(tileImg, x, y, tileImg.width, tileImg.height);
-}
-
+        const tileImg = loadedTiles[tileId];
+        if (tileImg && tileImg.complete) {
+          ctx.drawImage(tileImg, x, y, tileImg.width, tileImg.height);
+        }
       }
-
     }
-
   }
 
-  drawPlayer(player.x, player.y, playerImg, player.direction)
-  
-  for(let id in worldPlayers){
+  // --- Player local ---
+  drawPlayer(player.x, player.y, playerImg, player.direction);
 
-  let p = worldPlayers[id]
-
-  if(!p) continue
-  if(id === socket.id) continue
-    
-
-
-let img = playerImages[p.class]
-
-drawPlayer(p.x, p.y, img, p.direction)
-}
+  // --- Outros players ---
+  for (let id in worldPlayers) {
+    const p = worldPlayers[id];
+    if (!p || id === socket.id) continue;
+    const img = playerImages[p.class];
+    if (img && img.complete) drawPlayer(p.x, p.y, img, p.direction);
+  }
 }
 
-
-// --- Movimentar e enviar pro servidor ---
+// --- Movimentação ---
 function movePlayer() {
   let speed = 5;
   let newX = player.x;
@@ -141,12 +130,12 @@ function movePlayer() {
 function checkCollision(newX, newY) {
   if (newX < 0 || newX + player.width > mapWidth) return true;
   if (newY < 0 || newY + player.height > mapHeight) return true;
-
   return false;
 }
 
 // --- Desenhar jogador com espelhamento ---
 function drawPlayer(px, py, pImg, pDir) {
+  if (!pImg || !pImg.complete) return;
   ctx.save();
   if (pDir === "left") {
     ctx.translate(px + player.width / 2, py + player.height / 2);
@@ -158,27 +147,23 @@ function drawPlayer(px, py, pImg, pDir) {
   ctx.restore();
 }
 
-
-// --- socket.io ---
+// --- Socket.io ---
 socket.on("worldState", data => {
   worldPlayers = data.worldPlayers || {};
 });
 
 socket.on("worldPlayersUpdate", data => {
   for (let id in data) {
-    worldPlayers[id] = data[id]; // atualiza ou adiciona player
+    worldPlayers[id] = data[id];
   }
-
-  // opcional: remover players que saíram
   for (let id in worldPlayers) {
     if (!data[id]) delete worldPlayers[id];
   }
 });
 
-// --- loop ---
+// --- Game Loop ---
 function gameLoop() {
   movePlayer();
   draw();
   requestAnimationFrame(gameLoop);
 }
-
