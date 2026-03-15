@@ -102,12 +102,7 @@ function draw(){
   if(!p) continue
   if(id === socket.id) continue
     
- if(!playerImages[p.class]){
 
-  playerImages[p.class] = new Image()
-  playerImages[p.class].src = `./${p.class}.png`
-
-}
 
 let img = playerImages[p.class]
 
