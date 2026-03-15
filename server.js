@@ -190,7 +190,7 @@ io.on("connection", (socket) => {
   console.log("Novo jogador:", socket.id);
 
   // envia estado do mundo para o cliente
-socket.emit("worldState", { trees, worldPlayers });
+socket.emit("worldState", { worldPlayers });
     
   // quando jogador entra no mundo aberto
 worldPlayers[socket.id] = { 
