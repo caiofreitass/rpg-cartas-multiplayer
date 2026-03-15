@@ -84,6 +84,14 @@ function draw(){
   }
 
   drawPlayer(player.x, player.y, playerImg, player.direction)
+  
+  for(let id in worldPlayers){
+
+  let p = worldPlayers[id]
+
+  if(!p) continue
+
+  drawPlayer(p.x, p.y, playerImg, p.direction)
 
 }
 
