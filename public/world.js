@@ -4,6 +4,17 @@ const socket = io();
 const canvas = document.getElementById("worldCanvas");
 const ctx = canvas.getContext("2d");
 
+// MAPA DO TILED
+let mapData = null
+
+fetch("mapa.json")
+.then(res => res.json())
+.then(map => {
+    mapData = map
+    console.log("Mapa carregado:", mapData)
+})
+
+
 // --- Player local (com classe) ---
 const playerClass = localStorage.getItem("playerClass") || "humano";
 const playerImg = new Image();
