@@ -80,6 +80,8 @@ function draw(){
 
   }
 
+  drawPlayer(player.x, player.y, playerImg, player.direction)
+
 }
 
 
