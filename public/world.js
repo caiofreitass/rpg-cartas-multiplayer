@@ -72,7 +72,10 @@ function draw(){
         let x = (i % mapData.width) * 32
         let y = Math.floor(i / mapData.width) * 32
 
-        ctx.drawImage(tilesImg, 0,0,32,32, x,y,32,32)
+        let tileX = ((tile - 1) % 8) * 32
+        let tileY = Math.floor((tile - 1) / 8) * 32
+
+        ctx.drawImage(tilesImg, tileX, tileY, 32,32, x,y,32,32)
 
       }
 
