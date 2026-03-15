@@ -56,8 +56,8 @@ document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
 document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
 // --- Mapa ---
-const mapWidth = 3000;
-const mapHeight = 3000;
+const mapWidth = 50 * 32;  // 1600
+const mapHeight = 50 * 32; // 1600
 
 
 function draw(){
