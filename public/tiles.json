@@ -14,31 +14,31 @@
  "tiles":[
         {
          "id":0,
-         "image":"packmap\/House.png",
+         "image":"House.png",
          "imageheight":224,
          "imagewidth":224
         }, 
         {
          "id":1,
-         "image":"packmap\/SimpleSprites\/Pasto[1].png",
+         "image":"Pasto[1].png",
          "imageheight":32,
          "imagewidth":32
         }, 
         {
          "id":2,
-         "image":"packmap\/SimpleSprites\/Pasto[2].png",
+         "image":"Pasto[2].png",
          "imageheight":32,
          "imagewidth":32
         }, 
         {
          "id":5,
-         "image":"packmap\/SimpleSprites\/Tierra[1].png",
+         "image":"Tierra[1].png",
          "imageheight":32,
          "imagewidth":32
         }, 
         {
          "id":8,
-         "image":"packmap\/MegaPackFree\/MegaPackFree\/FreeEnvironment\/treee.png",
+         "image":"treee.png",
          "imageheight":118,
          "imagewidth":86
         }],
