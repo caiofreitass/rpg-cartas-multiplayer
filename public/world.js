@@ -5,6 +5,12 @@ const canvas = document.getElementById("worldCanvas");
 const ctx = canvas.getContext("2d");
 const tilesImg = new Image()
 const playerImages = {}
+const classes = ["humano", "Lobisomem", "Bruxa", "Vampiro"];
+for (let c of classes) {
+  const img = new Image();
+  img.src = `./${c}.png`;
+  playerImages[c] = img;
+}
 
 tilesImg.onload = () => {
   console.log("Tiles carregados")
@@ -116,8 +122,6 @@ function movePlayer() {
   let newX = player.x;
   let newY = player.y;
 
-  if(!keys["w"] && !keys["a"] && !keys["s"] && !keys["d"]) return
-
   if (keys["w"]) newY -= speed;
   if (keys["s"]) newY += speed;
   if (keys["a"]) { newX -= speed; player.direction = "left"; }
@@ -128,12 +132,11 @@ function movePlayer() {
     player.y = newY;
   }
 
-  // envia para o servidor, incluindo a classe
   socket.emit("playerMove", {
     x: player.x,
     y: player.y,
     direction: player.direction,
-    class: player.class  // <-- importante, sua classe/skin
+    class: player.class
   });
 }
 
@@ -160,11 +163,18 @@ function drawPlayer(px, py, pImg, pDir) {
 
 // --- socket.io ---
 socket.on("worldState", data => {
-worldPlayers = data.worldPlayers || {};
+  worldPlayers = data.worldPlayers || {};
 });
 
 socket.on("worldPlayersUpdate", data => {
-  worldPlayers = data;
+  for (let id in data) {
+    worldPlayers[id] = data[id]; // atualiza ou adiciona player
+  }
+
+  // opcional: remover players que saíram
+  for (let id in worldPlayers) {
+    if (!data[id]) delete worldPlayers[id];
+  }
 });
 
 // --- loop ---
