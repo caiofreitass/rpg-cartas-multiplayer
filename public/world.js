@@ -92,8 +92,11 @@ function draw(){
   if(!p) continue
   if(p.id === socket.id) continue
 
-  drawPlayer(p.x, p.y, playerImg, p.direction)
+ let img = new Image()
+img.src = `./${p.class}.png`
 
+drawPlayer(p.x, p.y, img, p.direction)
+}
 }
 
 
