@@ -103,6 +103,8 @@ function movePlayer() {
   let newX = player.x;
   let newY = player.y;
 
+  if(!keys["w"] && !keys["a"] && !keys["s"] && !keys["d"]) return
+
   if (keys["w"]) newY -= speed;
   if (keys["s"]) newY += speed;
   if (keys["a"]) { newX -= speed; player.direction = "left"; }
