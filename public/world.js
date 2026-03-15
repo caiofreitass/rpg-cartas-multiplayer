@@ -85,7 +85,10 @@ function draw(){
         let tileX = ((tile - 1) % 8) * 32
         let tileY = Math.floor((tile - 1) / 8) * 32
 
-        ctx.drawImage(tilesImg, tileX, tileY, 32,32, x,y,32,32)
+       let tileImg = loadedTiles[tile];
+if(tileImg && tileImg.complete) {
+    ctx.drawImage(tileImg, x, y, tileImg.width, tileImg.height);
+}
 
       }
 
