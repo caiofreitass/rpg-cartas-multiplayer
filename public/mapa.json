@@ -841,7 +841,7 @@
         {
          "columns":1,
          "firstgid":193,
-         "image":"Pasto1.png",
+         "image":"/Pasto1.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -855,7 +855,7 @@
         {
          "columns":1,
          "firstgid":194,
-         "image":"Pasto2.png",
+         "image":"/Pasto2.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -869,7 +869,7 @@
         {
          "columns":1,
          "firstgid":197,
-         "image":"Tierra1.png",
+         "image":"/Tierra1.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -883,7 +883,7 @@
         {
          "columns":7,
          "firstgid":198,
-         "image":"House.png",
+         "image":"/House.png",
          "imageheight":224,
          "imagewidth":224,
          "margin":0,
@@ -1059,31 +1059,31 @@
          "tiles":[
                 {
                  "id":0,
-                 "image":"House.png",
+                 "image":"/House.png",
                  "imageheight":224,
                  "imagewidth":224
                 }, 
                 {
                  "id":1,
-                 "image":"Pasto1.png",
+                 "image":"/Pasto1.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":2,
-                 "image":"Pasto2.png",
+                 "image":"/Pasto2.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":5,
-                 "image":"Tierra1.png",
+                 "image":"/Tierra1.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":8,
-                 "image":"treee.png",
+                 "image":"/treee.png",
                  "imageheight":118,
                  "imagewidth":86
                 }],
