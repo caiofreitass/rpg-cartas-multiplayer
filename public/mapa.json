@@ -730,11 +730,11 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"packmap\/MegaPackFree\/MegaPackFree\/FreeEnvironment\/FreePack.png",
+         "image":"public",
          "imageheight":384,
          "imagewidth":512,
          "margin":0,
-         "name":"FreePack",
+         "name":"public",
          "spacing":0,
          "tilecount":192,
          "tileheight":32,
