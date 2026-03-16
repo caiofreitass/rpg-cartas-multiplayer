@@ -55,7 +55,7 @@
             193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 193, 0],
          "height":50,
          "id":1,
-         "name":"Pasto[1].png",
+         "name":"Pasto1.png",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -116,7 +116,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":50,
          "id":14,
-         "name":"Pasto{2].png",
+         "name":"Pasto2.png",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -177,7 +177,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":50,
          "id":13,
-         "name":"Tierra[1].png",
+         "name":"Tierra1.png",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -841,7 +841,7 @@
         {
          "columns":1,
          "firstgid":193,
-         "image":"packmap\/SimpleSprites\/Pasto[1].png",
+         "image":"Pasto1.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -855,7 +855,7 @@
         {
          "columns":1,
          "firstgid":194,
-         "image":"packmap\/SimpleSprites\/Pasto[2].png",
+         "image":"Pasto2.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -868,36 +868,8 @@
         }, 
         {
          "columns":1,
-         "firstgid":195,
-         "image":"packmap\/SimpleSprites\/PastoSuperior[1].png",
-         "imageheight":32,
-         "imagewidth":32,
-         "margin":0,
-         "name":"PastoSuperior[1]",
-         "spacing":0,
-         "tilecount":1,
-         "tileheight":32,
-         "tilewidth":32,
-         "transparentcolor":"#ff00ff"
-        }, 
-        {
-         "columns":1,
-         "firstgid":196,
-         "image":"packmap\/SimpleSprites\/PastoSuperior[2].png",
-         "imageheight":32,
-         "imagewidth":32,
-         "margin":0,
-         "name":"PastoSuperior[2]",
-         "spacing":0,
-         "tilecount":1,
-         "tileheight":32,
-         "tilewidth":32,
-         "transparentcolor":"#ff00ff"
-        }, 
-        {
-         "columns":1,
          "firstgid":197,
-         "image":"packmap\/SimpleSprites\/Tierra[1].png",
+         "image":"Tierra1.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -911,7 +883,7 @@
         {
          "columns":7,
          "firstgid":198,
-         "image":"packmap\/House.png",
+         "image":"House.png",
          "imageheight":224,
          "imagewidth":224,
          "margin":0,
@@ -1087,31 +1059,31 @@
          "tiles":[
                 {
                  "id":0,
-                 "image":"packmap\/House.png",
+                 "image":"House.png",
                  "imageheight":224,
                  "imagewidth":224
                 }, 
                 {
                  "id":1,
-                 "image":"packmap\/SimpleSprites\/Pasto[1].png",
+                 "image":"Pasto1.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":2,
-                 "image":"packmap\/SimpleSprites\/Pasto[2].png",
+                 "image":"Pasto2.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":5,
-                 "image":"packmap\/SimpleSprites\/Tierra[1].png",
+                 "image":"Tierra1.png",
                  "imageheight":32,
                  "imagewidth":32
                 }, 
                 {
                  "id":8,
-                 "image":"packmap\/MegaPackFree\/MegaPackFree\/FreeEnvironment\/treee.png",
+                 "image":"treee.png",
                  "imageheight":118,
                  "imagewidth":86
                 }],
