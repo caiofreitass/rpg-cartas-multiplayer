@@ -730,11 +730,11 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"public",
+         "image":"",
          "imageheight":384,
          "imagewidth":512,
          "margin":0,
-         "name":"public",
+         "name":"",
          "spacing":0,
          "tilecount":192,
          "tileheight":32,
