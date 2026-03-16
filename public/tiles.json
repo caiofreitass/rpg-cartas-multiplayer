@@ -17,25 +17,25 @@
   "tiles":[
     {
       "id":0,
-      "image":"/images/House.png",
+      "image":"/House.png",
       "imageheight":224,
       "imagewidth":224
     },
     {
       "id":1,
-      "image":"/images/Pasto1.png",
+      "image":"/Pasto1.png",
       "imageheight":32,
       "imagewidth":32
     },
     {
       "id":3,
-      "image":"/images/Tierra1.png",
+      "image":"/Tierra1.png",
       "imageheight":32,
       "imagewidth":32
     },
     {
       "id":4,
-      "image":"/images/treee.png",
+      "image":"/treee.png",
       "imageheight":118,
       "imagewidth":86
     }
